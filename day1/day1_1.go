@@ -1,7 +1,7 @@
 package main
 
 import (
-	"adventofcode19/src/util"
+	"adventofcode19/util"
 	"fmt"
 	"strconv"
 	"strings"
@@ -24,7 +24,7 @@ func main() {
 			weightInterger, convError := strconv.Atoi(weight)
 			if convError != nil {
 				fmt.Println("Failed to convert weight to integer:")
-				return weights, convError
+				fmt.Print(convError.Error())
 			}
 			weights = append(weights, weightInterger)
 		}
