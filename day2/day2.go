@@ -74,7 +74,7 @@ func part2(programRef []int) error {
 			}
 			if currentRun[0] == 19690720 {
 				fmt.Printf("\nNoun: %v \nVerb: %v\nAnswer: %v", noun, verb, 100*noun+verb)
-				return nil
+				return programError
 			}
 		}
 	}
