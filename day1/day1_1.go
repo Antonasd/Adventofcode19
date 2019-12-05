@@ -10,7 +10,7 @@ import (
 type fuelCalc func(int) int
 
 func main() {
-
+	fmt.Println("Please provide the path to your puzzle input: ")
 	input, inputError := util.GetInput()
 	if inputError != nil {
 		fmt.Print(inputError.Error())

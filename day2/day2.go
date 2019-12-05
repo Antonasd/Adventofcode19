@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Please provide the path to your puzzle input: ")
 	input, inputError := util.GetInput()
 	if inputError != nil {
 		fmt.Println(inputError.Error())

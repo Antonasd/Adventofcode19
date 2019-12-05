@@ -10,8 +10,6 @@ import (
 
 func GetInput() (string, error) {
 	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Println("Please provide the path to your puzzle input: ")
 	fmt.Print(">")
 
 	path, inputError := reader.ReadString('\n')
