@@ -9,7 +9,7 @@ import (
 
 func main() {
 	fmt.Println("Please provide the path to your puzzle input: ")
-	input, inputError := util.GetInput()
+	input, inputError := util.GetFileInput()
 	if inputError != nil {
 		fmt.Println(inputError.Error())
 		return
@@ -106,9 +106,6 @@ func interpret(instrct []int, memory *[]int) (bool, error) {
 
 	switch op := instrct[0]; op {
 	case 1, 2:
-		if len(instrct) != 4 {
-			return false, fmt.Errorf("Invalid operation, not enough inputs. Provided instruction: %v", instrct)
-		}
 		for i := 1; i < 4; i++ {
 			if instrct[i] > len(*memory) || instrct[i] < 0 {
 				return false, fmt.Errorf("Invalid memory location: %v", instrct[i])

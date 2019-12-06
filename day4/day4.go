@@ -39,7 +39,7 @@ func findPossiblePasswords(start, end int) (possiblePasswords []int) {
 		}
 
 		currentNumber += distanceFromOverflow(currentNumber) + 1
-		overFlowIndex := getIndexOfLowestDecimal(currentNumber)
+		overFlowIndex := getIndexOfFirstDigit(currentNumber)
 		currentNumber = fillRightOf(currentNumber, overFlowIndex)
 
 		if overFlowIndex >= nAdjacent {
@@ -52,10 +52,10 @@ func findPossiblePasswords(start, end int) (possiblePasswords []int) {
 
 func getFirstPossiblePassword(number int) (password int, iAdjacent int) {
 	hasAdjacent := false
-	dec1 := getNumberAtDecimal(number, 5)
+	dec1 := getDigitAt(number, 5)
 
 	for i := 4; i >= 0; i-- {
-		dec2 := getNumberAtDecimal(number, i)
+		dec2 := getDigitAt(number, i)
 
 		if dec2 < dec1 {
 			return fillRightOf(number, i+1), dec2
@@ -74,7 +74,7 @@ func getFirstPossiblePassword(number int) (password int, iAdjacent int) {
 }
 
 func fillRightOf(number, index int) int {
-	repeatNumber := getNumberAtDecimal(number, index)
+	repeatNumber := getDigitAt(number, index)
 	baseNumber := (number / int(math.Pow10(index))) * int(math.Pow10(index))
 	for i := index - 1; i >= 0; i-- {
 		baseNumber += repeatNumber * int(math.Pow10(i))
@@ -83,13 +83,14 @@ func fillRightOf(number, index int) int {
 	return baseNumber
 }
 
-func getNumberAtDecimal(number, index int) int {
+func getDigitAt(number, index int) int {
 	return number/int(math.Pow10(index)) - (number/int(math.Pow10(index+1)))*10
 }
 
-func getIndexOfLowestDecimal(number int) (index int) {
+//Finds the index of the first non-zero digit
+func getIndexOfFirstDigit(number int) (index int) {
 	for index = 0; index <= 5; index++ {
-		if getNumberAtDecimal(number, index) != 0 {
+		if getDigitAt(number, index) != 0 {
 			if index == 0 {
 				return 0
 			}
@@ -101,7 +102,7 @@ func getIndexOfLowestDecimal(number int) (index int) {
 }
 
 func distanceFromOverflow(number int) int {
-	return 9 - getNumberAtDecimal(number, 0)
+	return 9 - getDigitAt(number, 0)
 }
 
 func generatePasswords(nPasswords, base int) (passwords []int) {
@@ -118,9 +119,9 @@ func findPossiblePasswordsPart2(start, end int) (possiblePasswords []int) {
 		streak := 0
 		valid := false
 
-		dec1 := getNumberAtDecimal(pass, 0)
+		dec1 := getDigitAt(pass, 0)
 		for i := 1; i <= 5; i++ {
-			dec2 := getNumberAtDecimal(pass, i)
+			dec2 := getDigitAt(pass, i)
 			if dec1 == dec2 {
 				streak++
 			} else {

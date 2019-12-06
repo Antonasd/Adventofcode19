@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	input, inputError := util.GetInput()
+	input, inputError := util.GetFileInput()
 	if inputError != nil {
 		fmt.Println(inputError.Error())
 		return

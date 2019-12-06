@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func GetInput() (string, error) {
+func GetFileInput() (string, error) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print(">")
 
@@ -28,4 +28,16 @@ func GetInput() (string, error) {
 	}
 
 	return string(input), nil
+}
+
+func GetInput() (string, error) {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Input number")
+	fmt.Print(">")
+
+	input, inputError := reader.ReadString('\n')
+	input = strings.TrimSuffix(input, "\n")
+	input = strings.TrimSuffix(input, "\r")
+
+	return input, inputError
 }
