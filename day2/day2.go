@@ -1,6 +1,7 @@
 package main
 
 import (
+	"adventofcode19/intcode"
 	"adventofcode19/util"
 	"fmt"
 	"strconv"
@@ -50,7 +51,8 @@ func part1(programRef []int) error {
 	program[1] = 12
 	program[2] = 2
 
-	programError := runProgram(&program)
+	var intcodeInst intcode.Intcode
+	programError := intcodeInst.RunProgram(&program)
 	if programError == nil {
 		fmt.Println("Value of position 0 after execution in part 1: ", program[0])
 	}
@@ -62,6 +64,7 @@ func part2(programRef []int) error {
 	currentRun := make([]int, len(programRef))
 
 	var verb, noun int
+	var intcodeInst intcode.Intcode
 
 	for noun = 0; noun < 100; noun++ {
 		for verb = 0; verb < 100; verb++ {
@@ -69,7 +72,7 @@ func part2(programRef []int) error {
 			currentRun[1] = noun
 			currentRun[2] = verb
 
-			programError := runProgram(&currentRun)
+			programError := intcodeInst.RunProgram(&currentRun)
 			if programError != nil {
 				return programError
 			}
@@ -80,49 +83,4 @@ func part2(programRef []int) error {
 		}
 	}
 	return fmt.Errorf("Could not find a combination of noun and verb that produce the number 19690720")
-}
-
-func runProgram(program *[]int) error {
-	var pError error
-	var pFinish bool
-	lOffset := 0
-	hOffset := 4
-
-	for !pFinish {
-		pFinish, pError = interpret((*program)[lOffset:hOffset], program)
-		if pError != nil {
-			return pError
-		}
-
-		lOffset += 4
-		hOffset += 4
-	}
-
-	return pError
-
-}
-
-func interpret(instrct []int, memory *[]int) (bool, error) {
-
-	switch op := instrct[0]; op {
-	case 1, 2:
-		for i := 1; i < 4; i++ {
-			if instrct[i] > len(*memory) || instrct[i] < 0 {
-				return false, fmt.Errorf("Invalid memory location: %v", instrct[i])
-			}
-		}
-
-		if instrct[0] == 1 {
-			(*memory)[instrct[3]] = (*memory)[instrct[1]] + (*memory)[instrct[2]]
-		}
-
-		if instrct[0] == 2 {
-			(*memory)[instrct[3]] = (*memory)[instrct[1]] * (*memory)[instrct[2]]
-		}
-		return false, nil
-	case 99:
-		return true, nil
-	default:
-		return false, fmt.Errorf("Invalid OP-code : %v", op)
-	}
 }
